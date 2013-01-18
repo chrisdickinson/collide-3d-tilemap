@@ -1,0 +1,22 @@
+{
+  "name": "collide-3d-tilemap",
+  "version": "0.0.0",
+  "description": "3d tilemap collisions made simple-ish",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chrisdickinson/collide-3d-tilemap"
+  },
+  "keywords": [
+    "collision",
+    "3d",
+    "games",
+    "aabb",
+    "tilemap"
+  ],
+  "author": "Chris Dickinson <chris@neversaw.us>",
+  "license": "MIT"
+}
