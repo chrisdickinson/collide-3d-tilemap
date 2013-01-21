@@ -1,6 +1,6 @@
 {
   "name": "collide-3d-tilemap",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "3d tilemap collisions made simple-ish",
   "main": "index.js",
   "scripts": {

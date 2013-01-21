@@ -14,8 +14,8 @@ var my_tilemap = [
 var collisions = require('collide-3d-tilemap')
   , collide
 
-var player = aabb([0, 0], [16, 16])
-  , vec = [0, 0]
+var player = aabb([0, 0, 0], [16, 16, 16])
+  , vec = [0, 0, 0]
 
 // collisions(field, size of tile in pixels, [width, height])
 collide = collisions(my_tilemap, 32)
