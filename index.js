@@ -1,9 +1,15 @@
-module.exports = function(field, tilesize, dimensions) {
+module.exports = function(field, tilesize, dimensions, offset) {
   dimensions = dimensions || [ 
     Math.sqrt(field.length) >> 0
   , Math.sqrt(field.length) >> 0
   , Math.sqrt(field.length) >> 0
   ] 
+
+  offset = offset || [
+    0
+  , 0
+  , 0
+  ]
 
   field = typeof field === 'function' ? field : function(x, y, z) {
     return this[x + y * dimensions[1] + (z * dimensions[1] * dimensions[2])]
@@ -29,12 +35,12 @@ module.exports = function(field, tilesize, dimensions) {
         , posi = vec[i_axis] > 0
         , leading = box[posi ? 'max' : 'base'][i_axis] 
         , dir = posi ? 1 : -1
-        , i_start = (leading / tilesize) >> 0
-        , i_end = (((leading + vec[i_axis]) / tilesize) >> 0) + dir
-        , j_start = (box.base[j_axis] / tilesize) >> 0
-        , j_end = Math.ceil(box.max[j_axis] / tilesize) >> 0
-        , k_start = (box.base[k_axis] / tilesize) >> 0
-        , k_end = Math.ceil(box.max[k_axis] / tilesize) >> 0
+        , i_start = Math.floor(leading / tilesize)
+        , i_end = (Math.floor((leading + vec[i_axis]) / tilesize)) + dir
+        , j_start = Math.floor(box.base[j_axis] / tilesize)
+        , j_end = Math.ceil(box.max[j_axis] / tilesize)
+        , k_start = Math.floor(box.base[k_axis] / tilesize) 
+        , k_end = Math.ceil(box.max[k_axis] / tilesize)
         , done = false
         , edge_vector
         , edge
@@ -50,11 +56,11 @@ module.exports = function(field, tilesize, dimensions) {
 
       var step = 0
       for(var i = i_start; !done && i !== i_end; ++step, i += dir) {
-        if(i < 0 || i >= dimensions[i_axis]) continue
+        if(i < offset[i_axis] || i >= dimensions[i_axis]) continue
         for(var j = j_start; !done && j !== j_end; ++j) {
-          if(j < 0 || j >= dimensions[j_axis]) continue
+          if(j < offset[j_axis] || j >= dimensions[j_axis]) continue
           for(var k = k_start; k !== k_end; ++k) {
-            if(k < 0 || k >= dimensions[k_axis]) continue
+            if(k < offset[k_axis] || k >= dimensions[k_axis]) continue
             coords[i_axis] = i
             coords[j_axis] = j
             coords[k_axis] = k
@@ -65,7 +71,6 @@ module.exports = function(field, tilesize, dimensions) {
             edge = dir > 0 ? i * tilesize : (i + 1) * tilesize
             edge_vector = edge - leading
 
-            sign = function(x) { return x ? x / Math.abs(x) : 0 }
             if(oncollision(i_axis, tile, coords, dir, edge_vector)) {
               done = true
               break
