@@ -22,12 +22,11 @@ module.exports = function(field, tilesize, dimensions, offset) {
   return collide
 
   function collide(box, vec, oncollision) {
-    if(vec[0] === 0 && vec[1] === 0 && vec[2] === 0) return
 
-    // collide x, then y
-    collideaxis(0)
-    collideaxis(1)
-    collideaxis(2)
+    // collide x, then y - if vector has a nonzero component
+    if(vec[0] !== 0) collideaxis(0)
+    if(vec[1] !== 0) collideaxis(1)
+    if(vec[2] !== 0) collideaxis(2)
 
     function collideaxis(i_axis) {
       var j_axis = (i_axis + 1) % 3
